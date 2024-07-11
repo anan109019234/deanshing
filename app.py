@@ -57,12 +57,12 @@ def detect_page():
             y_pro_phishing = gbc.predict_proba(x)[0, 0]
             y_pro_non_phishing = gbc.predict_proba(x)[0, 1]
             
-        if y_pred == 1:
-            st.success(f"Horaay link yang kamu masukkan {y_pro_non_phishing * 100:.2f}% aman untuk diakses.")
+            if y_pred == 1:
+                st.success(f"Horaay link yang kamu masukkan {y_pro_non_phishing * 100:.2f}% aman untuk diakses.")
+            else:
+                st.error(f"Waspadaa!!! link yang kamu berikan {y_pro_phishing * 100:.2f}% kemungkinan berbahaya.")
         else:
-            st.error(f"Waspadaa!!! link yang kamu berikan {y_pro_phishing * 100:.2f}% kemungkinan berbahaya.")
-    else:
-        st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
+            st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
        
 def about_page():
     st.image("assets/profil.jpg", use_column_width=True)
