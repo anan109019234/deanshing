@@ -4,27 +4,11 @@ import joblib
 import warnings
 from feature import FeatureExtraction
 from streamlit_option_menu import option_menu
-from streamlit_lottie import st_lottie
-import requests
 
 st.set_page_config(
     page_title="Deanshing",
     page_icon="d.ico",
     layout="wide")
-
-def load_lottie_url(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
-
-success_url = "https://assets7.lottiefiles.com/private_files/lf30_bojylw3i.json"  # Contoh URL untuk centang hijau
-error_url = "https://assets10.lottiefiles.com/private_files/lf30_jrpzvtlt.json"  # Contoh URL untuk silang merah
-warning_url = "https://assets10.lottiefiles.com/private_files/lf30_tgdrt7lt.json"  # Contoh URL untuk tanda seru
-
-success_animation = load_lottie_url(success_url)
-error_animation = load_lottie_url(error_url)
-warning_animation = load_lottie_url(warning_url)
 
 warnings.filterwarnings('ignore')
 
@@ -75,14 +59,11 @@ def detect_page():
             
         if y_pred == 1:
             st.success(f"Horaay link yang kamu masukkan {y_pro_non_phishing * 100:.2f}% aman untuk diakses.")
-            st_lottie(success_animation, width=200, key="success")
         else:
             st.error(f"Waspadaa!!! link yang kamu berikan {y_pro_phishing * 100:.2f}% kemungkinan berbahaya.")
-            st_lottie(error_animation, width=200, key="error")
     else:
         st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
-        st_lottie(warning_animation, width=200, key="warning")
-
+       
 def about_page():
     st.image("assets/profil.jpg", use_column_width=True)
 
