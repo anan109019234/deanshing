@@ -59,7 +59,7 @@ def detect_page():
             
             if y_pred == 1:
                 st.success(f"Horaay link yang kamu masukkan {y_pro_non_phishing * 100:.2f}% aman untuk diakses.")
-                st.image("assets/success.json")
+                st.image("assets/success.gif")
             else:
                 st.error(f"Waspadaa!!! link yang kamu berikan {y_pro_phishing * 100:.2f}% kemungkinan berbahaya.")
         else:
