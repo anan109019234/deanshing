@@ -5,6 +5,7 @@ import warnings
 from feature import FeatureExtraction
 from streamlit_option_menu import option_menu
 from streamlit_lottie import st_lottie
+import requests
 
 st.set_page_config(
     page_title="Deanshing",
