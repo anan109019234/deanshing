@@ -51,7 +51,7 @@ def about_page():
     st.markdown("""
         <div style="display: flex; flex-direction: row; justify-content: center;">
             <div style="text-align: center; margin-right: 80px;">
-                <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwirmYrJn56HAxXaSGwGHWaQD8kQFnoECAYQAQ&url=https%3A%2F%2Fgithub.com%2F&usg=AOvVaw38IHvcyBra8HGhmSxvlCGw&opi=89978449">
+                <a href="https://github.com/anan109019234/deanshing.git">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/200px-Octicons-mark-github.svg.png" alt="GitHub" style="width:30px;height:30px;">
                 </a>
                 <p style="margin-top: 5px;">Direktori</p>
