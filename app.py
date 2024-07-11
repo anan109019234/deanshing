@@ -7,7 +7,7 @@ from streamlit_option_menu import option_menu
 
 st.set_page_config(
     page_title="Deanshing",
-    page_icon="de.ico",
+    page_icon="assets/de.ico",
     layout="wide")
 
 warnings.filterwarnings('ignore')
