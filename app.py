@@ -62,8 +62,10 @@ def detect_page():
                 st.image("assets/s.gif")
             else:
                 st.error(f"Waspadaa!!! link yang kamu berikan {y_pro_phishing * 100:.2f}% kemungkinan berbahaya.")
+                st.image("assets/e.gif")
         else:
             st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
+            st.image("assets/w.gif")
        
 def about_page():
     st.image("assets/profil.jpg", use_column_width=True)
