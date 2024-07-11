@@ -19,7 +19,7 @@ def welcome_page():
     st.image("assets/dino.gif", use_column_width=True)
     st.markdown("""
         Untuk menghindari URL phishing, ada beberapa langkah yang bisa teman-teman lakukan, yaitu:
-        - Periksa URL dengan cermat sebelum mengklik atau memasukkan informasi sensitif ([Periksa Disini](#)).
+        - Periksa URL dengan cermat sebelum mengklik atau memasukkan informasi sensitif.
         - Gunakan alamat URL langsung daripada mengklik tautan dari email atau pesan yang mencurigakan.
         - Pastikan situs web menggunakan protokol HTTPS dan memiliki sertifikat keamanan yang valid.
         - Waspadai tanda-tanda umum phishing seperti tekanan waktu, ancaman, atau penawaran yang terlalu bagus untuk menjadi kenyataan.
