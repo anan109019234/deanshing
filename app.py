@@ -59,10 +59,13 @@ def detect_page():
             
             if y_pred == 1:
                 st.success(f"Horaay link yang kamu masukkan  {y_pro_non_phishing * 100:.2f}% aman untuk diakses.")
+                st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Checkmark.svg/1024px-Checkmark.svg.png", width=100)
             else:
                 st.error(f"Waspadaa!!! link yang kamu berikan {y_pro_phishing * 100:.2f}% kemungkinan berbahaya.")
+                st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Red_X.svg/1024px-Red_X.svg.png", width=100)
         else:
             st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
+            st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Exclamation_mark_red.png/1024px-Exclamation_mark_red.png", width=100)
 
 def about_page():
     st.image("assets/profil.jpg", use_column_width=True)
