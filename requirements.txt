@@ -1,0 +1,9 @@
+beautifulsoup4==4.12.3
+googlesearch_python==1.2.4
+joblib==1.4.2
+numpy==2.0.0
+python_dateutil==2.9.0.post0
+python_whois==0.9.4
+Requests==2.32.3
+streamlit==1.35.0
+streamlit_option_menu==0.3.13
