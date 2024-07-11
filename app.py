@@ -31,6 +31,7 @@ def welcome_page():
     """)
 
 def detect_page():
+    st.markdown("""Video Demo:""")
     st.video("assets/demo.mp4")
     url = st.text_input("Masukkan link di bawah ini")
     
