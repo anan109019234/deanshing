@@ -59,7 +59,20 @@ def detect_page():
             
             if y_pred == 1:
                 st.success(f"Horaay link yang kamu masukkan {y_pro_non_phishing * 100:.2f}% aman untuk diakses.")
-                st.image("assets/s.gif")
+                st.image("assets/s.gif", width=200)
+                st.markdown(
+                    """
+                    <style>
+                    .centered {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    </style>
+                    """,
+                    unsafe_allow_html=True
+                )
+                st.markdown('<div class="centered"><img src="assets/s.gif"></div>', unsafe_allow_html=True)
             else:
                 st.error(f"Waspadaa!!! link yang kamu berikan {y_pro_phishing * 100:.2f}% kemungkinan berbahaya.")
         else:
