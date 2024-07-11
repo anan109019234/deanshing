@@ -5,11 +5,6 @@ import warnings
 from feature import FeatureExtraction
 from streamlit_option_menu import option_menu
 
-st.set_page_config(
-    page_title="Deanshing",
-    page_icon="assets/d.ico",
-    layout="wide")
-
 warnings.filterwarnings('ignore')
 
 gbc = joblib.load("rf_url.joblib")
