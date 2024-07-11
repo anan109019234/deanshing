@@ -60,9 +60,11 @@ def detect_page():
             if y_pred == 1:
                 st.success(f"Horaay link yang kamu masukkan aman untuk diakses.")
                 st.image("assets/s.gif")
+                st.markdown(f"**Probabilitas** bahwa link ini **tidak berbahaya**: {y_pro_non_phishing * 100:.2f}%")
             else:
                 st.error(f"Waspadaa!!! link yang kamu berikan kemungkinan berbahaya.")
                 st.image("assets/e.gif")
+                st.markdown(f"**Probabilitas** bahwa link ini **berbahaya**: {y_pro_phishing * 100:.2f}%")
         else:
             st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
             st.image("assets/w.gif")
