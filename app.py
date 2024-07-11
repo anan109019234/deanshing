@@ -33,7 +33,7 @@ def welcome_page():
 def detect_page():
     st.markdown("""Video Demo:""")
     st.video("assets/demo.mp4")
-    st.markdown(""""
+    st.markdown("""
         Penjelasan:
         
         Kategori phishing: http://yutup.hub
