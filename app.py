@@ -73,8 +73,8 @@ def detect_page():
     
     if st.button("Periksa"):
         if url:
-            obj = FeatureExtraction(url)
-            x = np.array(obj.getFeaturesList()).reshape(1, -1)
+            features = extract_features(url)
+            x = np.array(features).reshape(1, -1)
             
             y_pred = gbc.predict(x)[0]
             reasons = generate_reason(features)
