@@ -49,15 +49,15 @@ def welcome_page():
     st.title("Yuk kenalan sama Random Forest")
     st.image("assets/dino.gif", use_column_width=True)
     st.markdown("""
-        Bayangkan kamu memiliki sebuah alat untuk mengidentifikasi apakah sebuah URL aman atau berbahaya untuk dikunjungi. Nah, Random Forest adalah seperti tim ahli keamanan yang terdiri dari banyak orang dengan keahlian berbeda-beda dalam mengenali tanda-tanda URL phishing.
+        [1] Pertama, coba bayangkan kamu memiliki sebuah alat untuk mengidentifikasi apakah sebuah URL aman atau berbahaya untuk dikunjungi. Nah, Random Forest adalah seperti tim ahli keamanan yang terdiri dari banyak orang dengan keahlian berbeda-beda dalam mengenali tanda-tanda URL phishing.
 
-        Setiap "ahli keamanan" dalam tim ini (dalam kasus ini, setiap pohon di hutan Random Forest) memiliki cara unik untuk memeriksa URL. Mereka bisa memeriksa apakah domainnya mencurigakan, apakah menggunakan protokol HTTPS yang aman, atau apakah ada kata-kata atau pola tertentu dalam URL yang menunjukkan tanda phishing.
+        [2] Nah, setiap "ahli keamanan" dalam tim ini (dalam kasus ini, setiap pohon di hutan Random Forest) memiliki cara unik untuk memeriksa URL. Mereka bisa memeriksa apakah domainnya mencurigakan, apakah menggunakan protokol HTTPS yang aman, atau apakah ada kata-kata atau pola tertentu dalam URL yang menunjukkan tanda phishing.
 
-        Ketika kamu memasukkan sebuah URL ke dalam Random Forest, setiap pohon (ahli keamanan) akan memberikan pendapatnya sendiri berdasarkan fitur-fitur yang diperiksa. Misalnya, satu pohon mungkin melihat bahwa URL menggunakan domain yang tidak umum atau tidak lazim, sementara pohon lain mungkin mencatat bahwa URL tidak menggunakan protokol HTTPS.
+        [3] Sehingga, ketika kamu memasukkan sebuah URL ke dalam Random Forest, setiap pohon (ahli keamanan) akan memberikan pendapatnya sendiri berdasarkan fitur-fitur yang diperiksa. Misalnya, satu pohon mungkin melihat bahwa URL menggunakan domain yang tidak umum atau tidak lazim, sementara pohon lain mungkin mencatat bahwa URL tidak menggunakan protokol HTTPS.
 
-        Random Forest kemudian mengumpulkan semua pendapat ini dari seluruh "ahli keamanan" dan menentukan mayoritasnya. Jika sebagian besar pohon mengatakan bahwa URL tersebut mencurigakan berdasarkan fitur-fitur yang diperiksa, maka Random Forest akan memutuskan bahwa URL tersebut kemungkinan besar berbahaya atau phishing.
+        [4] Setelah itu, Random Forest pun kemudian mengumpulkan semua pendapat dari seluruh "ahli keamanan" dan menentukan mayoritasnya. Jika sebagian besar pohon mengatakan bahwa URL tersebut mencurigakan berdasarkan fitur-fitur yang diperiksa, maka Random Forest akan memutuskan bahwa URL tersebut kemungkinan besar berbahaya atau phishing.
 
-        Kelebihan dari Random Forest dalam konteks ini adalah kemampuannya untuk menangani berbagai jenis fitur dan pola dalam URL tanpa perlu penyetelan yang rumit secara manual. Ini membuatnya sangat efektif dalam memprediksi apakah sebuah URL aman atau berpotensi phishing, dengan memanfaatkan kekuatan kolektif dari banyak "ahli keamanan" yang bekerja bersama-sama.
+        [5] Kelebihan dari Random Forest dalam konteks ini adalah kemampuannya untuk menangani berbagai jenis fitur dan pola dalam URL tanpa perlu penyetelan yang rumit secara manual. Ini membuatnya sangat efektif dalam memprediksi apakah sebuah URL aman atau berpotensi phishing, dengan memanfaatkan kekuatan kolektif dari banyak "ahli keamanan" yang bekerja bersama-sama.
     """)
 
 # Extract features from URL
