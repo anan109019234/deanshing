@@ -5,10 +5,7 @@ import warnings
 from feature import FeatureExtraction
 from streamlit_option_menu import option_menu
 
-st.set_page_config(
-    page_title="Deanshing",
-    page_icon="d.ico",
-    layout="wide")
+st.set_page_config(page_title="Deanshing", layout="wide")
 
 warnings.filterwarnings('ignore')
 
@@ -36,7 +33,7 @@ def extract_features(url):
     
 def detect_page():
     st.markdown("""Video Demo:""")
-    st.video("assets/demo.mp4")
+    st.video("assets/kenalan.mp4")
     st.markdown("""
         Penjelasan Video:
         
