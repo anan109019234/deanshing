@@ -122,9 +122,22 @@ def url_list_page():
 
     st.title("Daftar URL")
     st.markdown("### URL yang telah diperiksa:")
+
     if len(st.session_state['url_history']) > 0:
+        # Create a dictionary to separate "aman" and "berbahaya" URLs
+        url_dict = {'Aman': [], 'Phishing': []}
         for url, result in st.session_state['url_history']:
-            st.write(f"{url} - {result}")
+            if result == "aman":
+                url_dict['Aman'].append(url)
+            else:
+                url_dict['Phishing'].append(url)
+
+        # Create a DataFrame to display the URLs
+        df_aman = pd.DataFrame(url_dict['Aman'], columns=['Aman'])
+        df_phishing = pd.DataFrame(url_dict['Phishing'], columns=['Phishing'])
+        df_combined = pd.concat([df_aman, df_phishing], axis=1)
+        
+        st.dataframe(df_combined)
     else:
         st.warning("Belum ada URL yang diperiksa.")
 
