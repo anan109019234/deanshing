@@ -90,7 +90,7 @@ def about_page():
     """, unsafe_allow_html=True)
 
 def url_list_page():
-    st.title("Daftar URL")
+    st.title("History URL")
     st.markdown("### URL yang telah diperiksa:")
     if len(st.session_state['url_list']) > 0:
         for url in st.session_state['url_list']:
@@ -101,7 +101,7 @@ def url_list_page():
 def main():
     selected = option_menu(
         menu_title=None,  
-        options=["Selamat Datang", "Periksa Disini", "Daftar URL", "Tentang Saya"],  
+        options=["Selamat Datang", "Periksa Disini", "History URL", "Tentang Saya"],  
         icons=["house", "book", "list", "envelope"],  
         menu_icon="cast",  
         default_index=0,  
@@ -112,7 +112,7 @@ def main():
         welcome_page()
     elif selected == "Periksa Disini":
         detect_page()
-    elif selected == "Daftar URL":
+    elif selected == "History URL":
         url_list_page()
     elif selected == "Tentang Saya":
         about_page()
