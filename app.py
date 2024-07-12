@@ -36,20 +36,20 @@ def extract_features(url):
 
 def generate_reason(features):
     reasons = []
-    if features[2] == 1:
+    if features[2] == 1:  
         reasons.append("- URL ini menggunakan protokol HTTPS.")
     else:
         reasons.append("- URL ini tidak menggunakan protokol HTTPS.")
     
-    if features[0] < 54:
+    if features[0] < 54:  
         reasons.append("- Panjang URL kurang dari 54 karakter.")
     else:
         reasons.append("- Panjang URL lebih dari 54 karakter.")
     
-    if features[3] == 0:
-        reasons.append("- URL tidak memiliki banyak subdomain.")
-    else:
+    if features[3] > 0: 
         reasons.append("- URL memiliki banyak subdomain.")
+    else:
+        reasons.append("- URL tidak memiliki banyak subdomain.")
 
     return reasons
     
