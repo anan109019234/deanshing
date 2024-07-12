@@ -11,6 +11,10 @@ warnings.filterwarnings('ignore')
 
 gbc = joblib.load("rf_url.joblib")
 
+def initialize_session_state():
+    if 'url_list' not in st.session_state:
+        st.session_state['url_list'] = []
+
 def welcome_page():
     st.title("Yohohohoho!")
     st.image("assets/heker.gif", use_column_width=True)
