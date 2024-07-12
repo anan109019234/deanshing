@@ -120,8 +120,7 @@ def about_page():
 def url_list_page():
     initialize_session_state()  # Ensure session state is initialized
 
-    st.title("Daftar URL")
-    st.markdown("### URL yang telah diperiksa:")
+    st.markdown("### Daftar URL yang telah diperiksa:")
     if len(st.session_state['url_history']) > 0:
         for url, result in st.session_state['url_history']:
             color = "green" if result == "aman" else "red"
