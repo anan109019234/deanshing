@@ -89,11 +89,20 @@ def about_page():
         </div>
     """, unsafe_allow_html=True)
 
+def url_list_page():
+    st.title("Daftar URL")
+    st.markdown("### URL yang telah diperiksa:")
+    if len(st.session_state['url_list']) > 0:
+        for url in st.session_state['url_list']:
+            st.write(url)
+    else:
+        st.warning("Belum ada URL yang diperiksa.")
+
 def main():
     selected = option_menu(
         menu_title=None,  
-        options=["Selamat Datang", "Periksa Disini", "Tentang Saya"],  
-        icons=["house", "book", "envelope"],  
+        options=["Selamat Datang", "Periksa Disini", "Daftar URL", "Tentang Saya"],  
+        icons=["house", "book", "list", "envelope"],  
         menu_icon="cast",  
         default_index=0,  
         orientation="horizontal",
@@ -103,8 +112,10 @@ def main():
         welcome_page()
     elif selected == "Periksa Disini":
         detect_page()
+    elif selected == "Daftar URL":
+        url_list_page()
     elif selected == "Tentang Saya":
         about_page()
-
+        
 if __name__ == "__main__":
     main()
