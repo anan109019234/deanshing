@@ -9,6 +9,7 @@ st.set_page_config(page_title="Deanshing", layout="wide")
 
 warnings.filterwarnings('ignore')
 
+# Load the model
 gbc = joblib.load("rf_url.joblib")
 
 def initialize_session_state():
@@ -21,7 +22,6 @@ def welcome_page():
     st.markdown("""
         Teman-teman tau ga, phishing itu serangan cyber yang bahaya banget lohh, karena kalau kamu sampai terkena serangan ini, informasi-informasi sensitif seperti kata sandi kamu, informasi keuangan kamu, dan bahkan identitas kamu bisa digunakan oleh pihak yang tidak bertanggung jawab untuk melakukan sesuatu yang ilegal atas nama kamu, ya! sekali lagi ku katakan ATAS NAMA KAMU!!!. Jadi jangan dianggap sepele ya teman-teman.
     """)
-    
     st.image("assets/dino.gif", use_column_width=True)
     st.markdown("""
         Untuk menghindari URL phishing, ada beberapa langkah yang bisa teman-teman lakukan, yaitu:
@@ -30,12 +30,15 @@ def welcome_page():
         - Pastikan situs web menggunakan protokol HTTPS dan memiliki sertifikat keamanan yang valid.
         - Waspadai tanda-tanda umum phishing seperti tekanan waktu, ancaman, atau penawaran yang terlalu bagus untuk menjadi kenyataan.
     """)
+
 def extract_features(url):
     obj = FeatureExtraction(url)
     features = obj.getFeaturesList()
     return features
     
 def detect_page():
+    initialize_session_state()  # Ensure session state is initialized
+
     st.markdown("""Video Demo:""")
     st.video("assets/kenalan.mp4")
     st.markdown("""
@@ -55,6 +58,7 @@ def detect_page():
     
     if st.button("Periksa"):
         if url:
+            st.session_state['url_list'].append(url)  # Add the URL to the list
             features = extract_features(url)
             x = np.array(features).reshape(1, -1) 
             y_pred = gbc.predict(x)[0]
@@ -94,7 +98,9 @@ def about_page():
     """, unsafe_allow_html=True)
 
 def url_list_page():
-    st.title("History URL")
+    initialize_session_state()  # Ensure session state is initialized
+
+    st.title("Daftar URL")
     st.markdown("### URL yang telah diperiksa:")
     if len(st.session_state['url_list']) > 0:
         for url in st.session_state['url_list']:
@@ -103,9 +109,11 @@ def url_list_page():
         st.warning("Belum ada URL yang diperiksa.")
 
 def main():
+    initialize_session_state()  # Ensure session state is initialized
+
     selected = option_menu(
         menu_title=None,  
-        options=["Selamat Datang", "Periksa Disini", "History URL", "Tentang Saya"],  
+        options=["Selamat Datang", "Periksa Disini", "Daftar URL", "Tentang Saya"],  
         icons=["house", "book", "list", "envelope"],  
         menu_icon="cast",  
         default_index=0,  
@@ -116,10 +124,10 @@ def main():
         welcome_page()
     elif selected == "Periksa Disini":
         detect_page()
-    elif selected == "History URL":
+    elif selected == "Daftar URL":
         url_list_page()
     elif selected == "Tentang Saya":
         about_page()
-        
+
 if __name__ == "__main__":
     main()
