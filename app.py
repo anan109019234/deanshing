@@ -3,7 +3,6 @@ import numpy as np
 import joblib
 import warnings
 from feature import FeatureExtraction
-from streamlit_option_menu import option_menu
 import pickle
 import os
 
@@ -146,13 +145,8 @@ def url_list_page():
 def main():
     initialize_session_state()  # Ensure session state is initialized
 
-    selected = option_menu(
-        menu_title=None,  
-        options=["Selamat Datang", "Periksa Disini", "Daftar URL", "Tentang Saya"],  
-        icons=["house", "book", "list", "envelope"],  
-        menu_icon="cast",  
-        default_index=0,  
-        orientation="horizontal",
+    selected = st.sidebar.radio(
+        "Menu", ["Selamat Datang", "Periksa Disini", "Daftar URL", "Tentang Saya"]
     )
 
     if selected == "Selamat Datang":
@@ -164,6 +158,7 @@ def main():
     elif selected == "Tentang Saya":
         about_page()
 
+    # Footer menu
     st.markdown(
         """
         <style>
