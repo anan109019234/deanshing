@@ -61,12 +61,12 @@ def detect_page():
             if y_pred == 1:
                 st.success(f"Horaay link yang kamu masukkan aman untuk diakses.")
                 st.image("assets/s.gif")
-                st.warning("""Mengapa demikian? karena URL tersebut sudah menggunakan protokol "https" yang menunjukkan bahwa URL tersebut memiliki sertifikat keamanan dan mengenkripsi data untuk melindungi informasi pribadi kamu""")
+                st.warning("""Mengapa demikian? karena URL tersebut sudah menggunakan protokol "https" yang menunjukkan bahwa URL tersebut memiliki sertifikat keamanan dan mengenkripsi data untuk melindungi informasi pribadi kamu.""")
 
             else:
                 st.error(f"Waspadaa!!! link yang kamu berikan kemungkinan berbahaya.")
                 st.image("assets/e.gif")
-                st.warning("""Mengapa demikian? karena URL tersebut menggunakan protokol "http" bukan "https". Situs yang sah biasanya menggunakan "https" untuk memastikan keamanan data pengguna melalui enkripsi. Ketidakadaan HTTPS bisa menjadi tanda bahwa situs tersebut tidak aman dan mungkin berbahaya, karena bisa saja ada penyusup yang bisa meretas dan mengambil data pribadi yang kamu kirimkan""")
+                st.warning("""Mengapa demikian? karena URL tersebut menggunakan protokol "http" bukan "https". Situs yang sah biasanya menggunakan "https" untuk memastikan keamanan data pengguna melalui enkripsi. Ketidakadaan HTTPS bisa menjadi tanda bahwa situs tersebut tidak aman dan mungkin berbahaya, karena bisa saja ada penyusup yang bisa meretas dan mengambil data pribadi yang kamu kirimkan.""")
 
         else:
             st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
