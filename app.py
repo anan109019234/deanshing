@@ -29,7 +29,30 @@ def welcome_page():
         - Pastikan situs web menggunakan protokol HTTPS dan memiliki sertifikat keamanan yang valid.
         - Waspadai tanda-tanda umum phishing seperti tekanan waktu, ancaman, atau penawaran yang terlalu bagus untuk menjadi kenyataan.
     """)
+def extract_features(url):
+    obj = FeatureExtraction(url)
+    features = obj.getFeaturesList()
+    return features
 
+def generate_reason(features):
+    reasons = []
+    if features[2] == 1:
+        reasons.append("- URL ini menggunakan protokol HTTPS.")
+    else:
+        reasons.append("- URL ini tidak menggunakan protokol HTTPS.")
+    
+    if features[0] < 54:
+        reasons.append("- Panjang URL kurang dari 54 karakter.")
+    else:
+        reasons.append("- Panjang URL lebih dari 54 karakter.")
+    
+    if features[3] == 0:
+        reasons.append("- URL tidak memiliki banyak subdomain.")
+    else:
+        reasons.append("- URL memiliki banyak subdomain.")
+
+    return reasons
+    
 def detect_page():
     st.markdown("""Video Demo:""")
     st.video("assets/demo.mp4")
@@ -54,17 +77,22 @@ def detect_page():
             x = np.array(obj.getFeaturesList()).reshape(1, -1)
             
             y_pred = gbc.predict(x)[0]
-            y_pro_phishing = gbc.predict_proba(x)[0, 0]
-            y_pro_non_phishing = gbc.predict_proba(x)[0, 1]
+            reasons = generate_reason(features)
             
             if y_pred == 1:
                 st.success(f"Horaay link yang kamu masukkan aman untuk diakses.")
                 st.image("assets/s.gif")
-                st.markdown(f"**Probabilitas** bahwa link ini **tidak berbahaya**: {y_pro_non_phishing * 100:.2f}%")
+                st.markdown("Mengapa URL tersebut aman?")
+                for reason in reasons:
+                    st.markdown(reason)
+
             else:
                 st.error(f"Waspadaa!!! link yang kamu berikan kemungkinan berbahaya.")
                 st.image("assets/e.gif")
-                st.markdown(f"**Probabilitas** bahwa link ini **berbahaya**: {y_pro_phishing * 100:.2f}%")
+                st.markdown("Mengapa URL tersebut tidak aman?")
+                for reason in reasons:
+                    st.markdown(reason)
+
         else:
             st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
             st.image("assets/w.gif")
