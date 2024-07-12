@@ -3,6 +3,7 @@ import numpy as np
 import joblib
 import warnings
 from feature import FeatureExtraction
+from streamlit_option_menu import option_menu
 import pickle
 import os
 
@@ -145,8 +146,13 @@ def url_list_page():
 def main():
     initialize_session_state()  # Ensure session state is initialized
 
-    selected = st.sidebar.radio(
-        "Menu", ["Selamat Datang", "Periksa Disini", "Daftar URL", "Tentang Saya"]
+    selected = option_menu(
+        menu_title=None,  
+        options=["Selamat Datang", "Periksa Disini", "Daftar URL", "Tentang Saya"],  
+        icons=["house", "book", "list", "envelope"],  
+        menu_icon="cast",  
+        default_index=0,  
+        orientation="horizontal",
     )
 
     if selected == "Selamat Datang":
@@ -157,44 +163,6 @@ def main():
         url_list_page()
     elif selected == "Tentang Saya":
         about_page()
-
-    # Footer menu
-    st.markdown(
-        """
-        <style>
-        .footer-menu {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #333333;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .footer-menu .menu-item {
-            display: inline-block;
-            margin: 0 15px;
-            color: white;
-            text-decoration: none;
-        }
-        .footer-menu .menu-item:hover {
-            text-decoration: underline;
-        }
-        </style>
-        """
-    )
-
-    st.markdown(
-        """
-        <div class="footer-menu">
-            <a href="#" class="menu-item">Selamat Datang</a>
-            <a href="#" class="menu-item">Periksa Disini</a>
-            <a href="#" class="menu-item">Daftar URL</a>
-            <a href="#" class="menu-item">Tentang Saya</a>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 
 if __name__ == "__main__":
     main()
