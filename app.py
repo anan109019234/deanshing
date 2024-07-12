@@ -4,6 +4,8 @@ import joblib
 import warnings
 from feature import FeatureExtraction
 from streamlit_option_menu import option_menu
+import pickle
+import os
 
 st.set_page_config(page_title="Deanshing", layout="wide")
 
@@ -12,10 +14,23 @@ warnings.filterwarnings('ignore')
 # Load the model
 gbc = joblib.load("rf_url.joblib")
 
-def initialize_session_state():
-    if 'url_list' not in st.session_state:
-        st.session_state['url_list'] = []
+# Functions to save and load URL history
+def save_url_history(url_history, filename="url_history.pkl"):
+    with open(filename, 'wb') as file:
+        pickle.dump(url_history, file)
 
+def load_url_history(filename="url_history.pkl"):
+    if os.path.exists(filename):
+        with open(filename, 'rb') as file:
+            return pickle.load(file)
+    return []
+
+# Initialize session state
+def initialize_session_state():
+    if 'url_history' not in st.session_state:
+        st.session_state['url_history'] = load_url_history()
+
+# Welcome page
 def welcome_page():
     st.title("Yohohohoho!")
     st.image("assets/heker.gif", use_column_width=True)
@@ -31,11 +46,13 @@ def welcome_page():
         - Waspadai tanda-tanda umum phishing seperti tekanan waktu, ancaman, atau penawaran yang terlalu bagus untuk menjadi kenyataan.
     """)
 
+# Extract features from URL
 def extract_features(url):
     obj = FeatureExtraction(url)
     features = obj.getFeaturesList()
     return features
-    
+
+# Detect page
 def detect_page():
     initialize_session_state()  # Ensure session state is initialized
 
@@ -58,25 +75,27 @@ def detect_page():
     
     if st.button("Periksa"):
         if url:
-            st.session_state['url_list'].append(url)  # Add the URL to the list
             features = extract_features(url)
             x = np.array(features).reshape(1, -1) 
             y_pred = gbc.predict(x)[0]
+            
+            result = "aman" if y_pred == 1 else "berbahaya"
+            st.session_state['url_history'].append((url, result))  # Add URL and result to history
+            save_url_history(st.session_state['url_history'])  # Save the history to file
             
             if y_pred == 1:
                 st.success(f"Horaay link yang kamu masukkan aman untuk diakses.")
                 st.image("assets/s.gif")
                 st.warning("""Mengapa demikian? karena URL tersebut sudah menggunakan protokol "https" yang menunjukkan bahwa URL tersebut memiliki sertifikat keamanan dan mengenkripsi data untuk melindungi informasi pribadi kamu.""")
-
             else:
                 st.error(f"Waspadaa!!! link yang kamu berikan kemungkinan berbahaya.")
                 st.image("assets/e.gif")
                 st.warning("""Mengapa demikian? karena URL tersebut menggunakan protokol "http" bukan "https". Situs yang sah biasanya menggunakan "https" untuk memastikan keamanan data pengguna melalui enkripsi. Ketidakadaan HTTPS bisa menjadi tanda bahwa situs tersebut tidak aman dan mungkin berbahaya, karena bisa saja ada penyusup yang bisa meretas dan mengambil data pribadi yang kamu kirimkan.""")
-
         else:
             st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
             st.image("assets/w.gif")
-       
+
+# About page
 def about_page():
     st.image("assets/profil.jpg", use_column_width=True)
 
@@ -97,17 +116,19 @@ def about_page():
         </div>
     """, unsafe_allow_html=True)
 
+# URL list page
 def url_list_page():
     initialize_session_state()  # Ensure session state is initialized
 
     st.title("Daftar URL")
     st.markdown("### URL yang telah diperiksa:")
-    if len(st.session_state['url_list']) > 0:
-        for url in st.session_state['url_list']:
-            st.write(url)
+    if len(st.session_state['url_history']) > 0:
+        for url, result in st.session_state['url_history']:
+            st.write(f"{url} - {result}")
     else:
         st.warning("Belum ada URL yang diperiksa.")
 
+# Main function
 def main():
     initialize_session_state()  # Ensure session state is initialized
 
