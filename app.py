@@ -90,8 +90,6 @@ def about_page():
     """, unsafe_allow_html=True)
 
 def url_list_page():
-    initialize_session_state()  # Ensure session state is initialized
-
     st.title("Daftar URL")
     st.markdown("### URL yang telah diperiksa:")
     if len(st.session_state['url_list']) > 0:
@@ -101,8 +99,6 @@ def url_list_page():
         st.warning("Belum ada URL yang diperiksa.")
 
 def main():
-    initialize_session_state()  # Ensure session state is initialized
-
     selected = option_menu(
         menu_title=None,  
         options=["Selamat Datang", "Periksa Disini", "Daftar URL", "Tentang Saya"],  
