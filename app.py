@@ -92,9 +92,10 @@ def panduan_aplikasi_page():
 
         1. Buka halaman "Periksa Disini".
         2. Masukkan URL yang ingin Anda periksa ke dalam kotak teks yang tersedia.
-        3. Klik tombol "Periksa" untuk memulai proses analisis URL.
-        4. Hasil analisis akan ditampilkan apakah URL tersebut aman atau berbahaya.
-        5. Anda dapat melihat riwayat URL yang telah diperiksa di halaman "Daftar URL".
+        3. Pastikan URL yang anda masukkan berisi protokol seperti HTTPS.
+        4. Klik tombol "Periksa" untuk memulai proses analisis URL.
+        5. Hasil analisis akan ditampilkan apakah URL tersebut aman atau berbahaya.
+        6. Anda dapat melihat riwayat URL yang telah diperiksa di halaman "Daftar URL".
 
         ### Video Demo
     """)
