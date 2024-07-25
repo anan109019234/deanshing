@@ -60,6 +60,35 @@ def welcome_page():
         [5] Kelebihan dari Random Forest dalam konteks ini adalah kemampuannya untuk menangani berbagai jenis fitur dan pola dalam URL tanpa perlu penyetelan yang rumit secara manual. Ini membuatnya sangat efektif dalam memprediksi apakah sebuah URL aman atau berpotensi phishing, dengan memanfaatkan kekuatan kolektif dari banyak "ahli keamanan" yang bekerja bersama-sama.
     """)
 
+# Panduan Aplikasi page
+def panduan_aplikasi_page():
+    st.title("Panduan Aplikasi")
+    st.markdown("""
+        ### Tata Cara Penggunaan Aplikasi Deteksi Phishing
+
+        1. Buka halaman "Periksa Disini".
+        2. Masukkan URL yang ingin Anda periksa ke dalam kotak teks yang tersedia.
+        3. Klik tombol "Periksa" untuk memulai proses analisis URL.
+        4. Hasil analisis akan ditampilkan apakah URL tersebut aman atau berbahaya.
+        5. Anda dapat melihat riwayat URL yang telah diperiksa di halaman "Daftar URL".
+
+        ### Video Demo
+    """)
+    st.video("assets/kenalan.mp4")
+    st.markdown("""
+        #### Penjelasan Video:
+
+        **Kategori Phishing**
+        - Alamat URL "yutup.hub" mencoba menyerupai "YouTube" namun menggunakan ejaan yang tidak lazim dan domain ".hub", yang tidak umum untuk situs resmi seperti YouTube. Ini adalah teknik umum yang digunakan oleh situs phishing untuk menipu pengguna agar percaya bahwa mereka mengunjungi situs yang sah.
+        - URL ini menggunakan protokol "http" bukan "https". Situs yang sah biasanya menggunakan "https" untuk memastikan keamanan data pengguna melalui enkripsi. Ketidakadaan HTTPS bisa menjadi tanda bahwa situs tersebut tidak aman dan mungkin berbahaya.
+        - Domain ".hub" tidak umum digunakan oleh situs terpercaya. Situs phishing sering kali menggunakan domain yang tidak biasa atau baru untuk menghindari deteksi dan memberikan rasa urgensi atau keunikan palsu kepada pengguna.
+        
+        **Kategori Non-Phishing**
+        - Domain "google.com" adalah domain resmi milik Google, salah satu perusahaan teknologi terbesar dan terpercaya di dunia. Ini adalah domain yang umum dan diakui secara global.
+        - URL ini menggunakan protokol "https", yang menunjukkan bahwa situs ini memiliki sertifikat keamanan dan mengenkripsi data pengguna untuk melindungi informasi pribadi mereka.
+        - Google telah lama dikenal sebagai penyedia layanan yang sah dengan banyak pengguna di seluruh dunia. Situs ini sering diverifikasi oleh berbagai otoritas dan memiliki reputasi yang sangat baik, sehingga kecil kemungkinan untuk menjadi situs phishing.
+    """)
+
 # Extract features from URL
 def extract_features(url):
     obj = FeatureExtraction(url)
@@ -70,21 +99,6 @@ def extract_features(url):
 def detect_page():
     initialize_session_state()  # Ensure session state is initialized
 
-    st.markdown("""Video Demo:""")
-    st.video("assets/kenalan.mp4")
-    st.markdown("""
-        Penjelasan Video:
-        
-        Kategori Phishing
-        - Alamat URL "yutup.hub" mencoba menyerupai "YouTube" namun menggunakan ejaan yang tidak lazim dan domain ".hub", yang tidak umum untuk situs resmi seperti YouTube. Ini adalah teknik umum yang digunakan oleh situs phishing untuk menipu pengguna agar percaya bahwa mereka mengunjungi situs yang sah.
-        - URL ini menggunakan protokol "http" bukan "https". Situs yang sah biasanya menggunakan "https" untuk memastikan keamanan data pengguna melalui enkripsi. Ketidakadaan HTTPS bisa menjadi tanda bahwa situs tersebut tidak aman dan mungkin berbahaya.
-        - Domain ".hub" tidak umum digunakan oleh situs terpercaya. Situs phishing sering kali menggunakan domain yang tidak biasa atau baru untuk menghindari deteksi dan memberikan rasa urgensi atau keunikan palsu kepada pengguna.
-        
-        Kategori Non-Phishing
-        - Domain "google.com" adalah domain resmi milik Google, salah satu perusahaan teknologi terbesar dan terpercaya di dunia. Ini adalah domain yang umum dan diakui secara global.
-        - URL ini menggunakan protokol "https", yang menunjukkan bahwa situs ini memiliki sertifikat keamanan dan mengenkripsi data pengguna untuk melindungi informasi pribadi mereka.
-        - Google telah lama dikenal sebagai penyedia layanan yang sah dengan banyak pengguna di seluruh dunia. Situs ini sering diverifikasi oleh berbagai otoritas dan memiliki reputasi yang sangat baik, sehingga kecil kemungkinan untuk menjadi situs phishing.
-    """)
     url = st.text_input("Masukkan link di bawah ini")
     
     if st.button("Periksa"):
@@ -148,8 +162,8 @@ def main():
 
     selected = option_menu(
         menu_title=None,  
-        options=["Selamat Datang", "Periksa Disini", "Daftar URL", "Tentang Saya"],  
-        icons=["house", "book", "list", "envelope"],  
+        options=["Selamat Datang", "Panduan Aplikasi", "Periksa Disini", "Daftar URL", "Tentang Saya"],  
+        icons=["house", "book", "book", "list", "envelope"],  
         menu_icon="cast",  
         default_index=0,  
         orientation="horizontal",
@@ -157,6 +171,8 @@ def main():
 
     if selected == "Selamat Datang":
         welcome_page()
+    elif selected == "Panduan Aplikasi":
+        panduan_aplikasi_page()
     elif selected == "Periksa Disini":
         detect_page()
     elif selected == "Daftar URL":
