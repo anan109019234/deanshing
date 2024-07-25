@@ -11,10 +11,8 @@ st.set_page_config(page_title="Deanshing", layout="wide")
 
 warnings.filterwarnings('ignore')
 
-# Load the model
 gbc = joblib.load("rf_url.joblib")
 
-# Functions to save and load URL history
 def save_url_history(url_history, filename="url_history.pkl"):
     with open(filename, 'wb') as file:
         pickle.dump(url_history, file)
@@ -25,12 +23,10 @@ def load_url_history(filename="url_history.pkl"):
             return pickle.load(file)
     return []
 
-# Initialize session state
 def initialize_session_state():
     if 'url_history' not in st.session_state:
         st.session_state['url_history'] = load_url_history()
 
-# Welcome page
 def welcome_page():
     st.title("Yohohohoho!")
     st.image("assets/heker.gif", use_column_width=True)
@@ -60,7 +56,6 @@ def welcome_page():
         [5] Kelebihan dari Random Forest dalam konteks ini adalah kemampuannya untuk menangani berbagai jenis fitur dan pola dalam URL tanpa perlu penyetelan yang rumit secara manual. Ini membuatnya sangat efektif dalam memprediksi apakah sebuah URL aman atau berpotensi phishing, dengan memanfaatkan kekuatan kolektif dari banyak "ahli keamanan" yang bekerja bersama-sama.
     """)
 
-# Panduan Aplikasi page
 def panduan_aplikasi_page():
     st.title("Panduan Aplikasi")
     st.markdown("""
@@ -89,15 +84,13 @@ def panduan_aplikasi_page():
         - Google telah lama dikenal sebagai penyedia layanan yang sah dengan banyak pengguna di seluruh dunia. Situs ini sering diverifikasi oleh berbagai otoritas dan memiliki reputasi yang sangat baik, sehingga kecil kemungkinan untuk menjadi situs phishing.
     """)
 
-# Extract features from URL
 def extract_features(url):
     obj = FeatureExtraction(url)
     features = obj.getFeaturesList()
     return features
 
-# Detect page
 def detect_page():
-    initialize_session_state()  # Ensure session state is initialized
+    initialize_session_state()
 
     url = st.text_input("Masukkan link di bawah ini")
     
@@ -108,8 +101,8 @@ def detect_page():
             y_pred = gbc.predict(x)[0]
             
             result = "aman" if y_pred == 1 else "berbahaya"
-            st.session_state['url_history'].append((url, result))  # Add URL and result to history
-            save_url_history(st.session_state['url_history'])  # Save the history to file
+            st.session_state['url_history'].append((url, result))
+            save_url_history(st.session_state['url_history'])
             
             if y_pred == 1:
                 st.success(f"Horaay link yang kamu masukkan aman untuk diakses.")
@@ -123,7 +116,6 @@ def detect_page():
             st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
             st.image("assets/w.gif")
 
-# About page
 def about_page():
     st.image("assets/profil.jpg", use_column_width=True)
 
@@ -144,9 +136,8 @@ def about_page():
         </div>
     """, unsafe_allow_html=True)
 
-# URL list page
 def url_list_page():
-    initialize_session_state()  # Ensure session state is initialized
+    initialize_session_state()
 
     st.markdown("### Daftar URL yang telah diperiksa:")
     if len(st.session_state['url_history']) > 0:
@@ -156,14 +147,13 @@ def url_list_page():
     else:
         st.warning("Belum ada URL yang diperiksa.")
 
-# Main function
 def main():
-    initialize_session_state()  # Ensure session state is initialized
+    initialize_session_state()
 
     selected = option_menu(
         menu_title=None,  
         options=["Selamat Datang", "Panduan Aplikasi", "Periksa Disini", "Daftar URL", "Tentang Saya"],  
-        icons=["house", "book", "book", "list", "envelope"],  
+        icons=["house", "book", "search", "list", "envelope"],  
         menu_icon="cast",  
         default_index=0,  
         orientation="horizontal",
