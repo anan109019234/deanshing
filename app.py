@@ -1,10 +1,11 @@
+import sqlite3
+import pandas as pd
 import streamlit as st
 import numpy as np
 import joblib
 import warnings
 from feature import FeatureExtraction
 from streamlit_option_menu import option_menu
-import pickle
 import os
 
 st.set_page_config(page_title="Deanshing", layout="wide")
@@ -13,15 +14,26 @@ warnings.filterwarnings('ignore')
 
 gbc = joblib.load("rf_url.joblib")
 
-def save_url_history(url_history, filename="url_history.pkl"):
-    with open(filename, 'wb') as file:
-        pickle.dump(url_history, file)
+# SQLite Database Configuration
+DATABASE = 'url_history.db'
 
-def load_url_history(filename="url_history.pkl"):
-    if os.path.exists(filename):
-        with open(filename, 'rb') as file:
-            return pickle.load(file)
-    return []
+def create_table():
+    with sqlite3.connect(DATABASE) as conn:
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS url_history (
+                url TEXT NOT NULL,
+                result TEXT NOT NULL
+            )
+        ''')
+        
+def save_url_history(url, result):
+    with sqlite3.connect(DATABASE) as conn:
+        conn.execute('INSERT INTO url_history (url, result) VALUES (?, ?)', (url, result))
+
+def load_url_history():
+    with sqlite3.connect(DATABASE) as conn:
+        df = pd.read_sql_query('SELECT * FROM url_history', conn)
+    return df
 
 def initialize_session_state():
     if 'url_history' not in st.session_state:
@@ -118,8 +130,7 @@ def detect_page():
             y_pred = gbc.predict(x)[0]
             
             result = "aman" if y_pred == 1 else "berbahaya"
-            st.session_state['url_history'].append((url, result))
-            save_url_history(st.session_state['url_history'])
+            save_url_history(url, result)
             
             if y_pred == 1:
                 st.success(f"Horaay link yang kamu masukkan aman untuk diakses.")
@@ -157,14 +168,25 @@ def url_list_page():
     initialize_session_state()
 
     st.markdown("### Daftar URL yang telah diperiksa:")
-    if len(st.session_state['url_history']) > 0:
-        for url, result in st.session_state['url_history']:
-            color = "green" if result == "aman" else "red"
-            st.markdown(f"<span style='color:{color}'>{url} - {result}</span>", unsafe_allow_html=True)
+
+    df = load_url_history()
+    if not df.empty:
+        df.columns = ['URL', 'Status']
+        df['Status'] = df['Status'].apply(lambda x: 'Aman' if x == 'aman' else 'Phishing')
+        st.write(df)
     else:
         st.warning("Belum ada URL yang diperiksa.")
 
+    # Add option to download as CSV
+    st.download_button(
+        label="Download CSV",
+        data=df.to_csv(index=False).encode('utf-8'),
+        file_name='url_history.csv',
+        mime='text/csv'
+    )
+
 def main():
+    create_table()
     initialize_session_state()
 
     selected = option_menu(
