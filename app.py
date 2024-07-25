@@ -18,22 +18,33 @@ gbc = joblib.load("rf_url.joblib")
 DATABASE = 'url_history.db'
 
 def create_table():
-    with sqlite3.connect(DATABASE) as conn:
-        conn.execute('''
-            CREATE TABLE IF NOT EXISTS url_history (
-                url TEXT NOT NULL,
-                result TEXT NOT NULL
-            )
-        ''')
-        
+    try:
+        with sqlite3.connect(DATABASE) as conn:
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS url_history (
+                    url TEXT NOT NULL,
+                    result TEXT NOT NULL
+                )
+            ''')
+    except sqlite3.Error as e:
+        st.error(f"Error creating table: {e}")
+
 def save_url_history(url, result):
-    with sqlite3.connect(DATABASE) as conn:
-        conn.execute('INSERT INTO url_history (url, result) VALUES (?, ?)', (url, result))
+    try:
+        with sqlite3.connect(DATABASE) as conn:
+            conn.execute('INSERT INTO url_history (url, result) VALUES (?, ?)', (url, result))
+            conn.commit()
+    except sqlite3.Error as e:
+        st.error(f"Error saving URL history: {e}")
 
 def load_url_history():
-    with sqlite3.connect(DATABASE) as conn:
-        df = pd.read_sql_query('SELECT * FROM url_history', conn)
-    return df
+    try:
+        with sqlite3.connect(DATABASE) as conn:
+            df = pd.read_sql_query('SELECT * FROM url_history', conn)
+        return df
+    except sqlite3.Error as e:
+        st.error(f"Error loading URL history: {e}")
+        return pd.DataFrame()
 
 def initialize_session_state():
     if 'url_history' not in st.session_state:
@@ -105,37 +116,29 @@ def panduan_aplikasi_page():
         **Kategori Phishing**
         - Alamat URL "yutup.hub" mencoba menyerupai "YouTube" namun menggunakan ejaan yang tidak lazim dan domain ".hub", yang tidak umum untuk situs resmi seperti YouTube. Ini adalah teknik umum yang digunakan oleh situs phishing untuk menipu pengguna agar percaya bahwa mereka mengunjungi situs yang sah.
         - URL ini menggunakan protokol "http" bukan "https". Situs yang sah biasanya menggunakan "https" untuk memastikan keamanan data pengguna melalui enkripsi. Ketidakadaan HTTPS bisa menjadi tanda bahwa situs tersebut tidak aman dan mungkin berbahaya.
-        - Domain ".hub" tidak umum digunakan oleh situs terpercaya. Situs phishing sering kali menggunakan domain yang tidak biasa atau baru untuk menghindari deteksi dan memberikan rasa urgensi atau keunikan palsu kepada pengguna.
-        
-        **Kategori Non-Phishing**
-        - Domain "google.com" adalah domain resmi milik Google, salah satu perusahaan teknologi terbesar dan terpercaya di dunia. Ini adalah domain yang umum dan diakui secara global.
-        - URL ini menggunakan protokol "https", yang menunjukkan bahwa situs ini memiliki sertifikat keamanan dan mengenkripsi data pengguna untuk melindungi informasi pribadi mereka.
-        - Google telah lama dikenal sebagai penyedia layanan yang sah dengan banyak pengguna di seluruh dunia. Situs ini sering diverifikasi oleh berbagai otoritas dan memiliki reputasi yang sangat baik, sehingga kecil kemungkinan untuk menjadi situs phishing.
+        - Domain ".hub" tidak umum digunakan oleh situs terpercaya. Situs phishing sering kali menggunakan domain yang tidak lazim untuk menghindari deteksi.
+
+        #### Mengapa Memilih "Deanshing"?
+        "Deanshing" dirancang untuk memberikan penilaian cepat dan akurat mengenai keamanan URL dengan bantuan algoritma machine learning dan analisis fitur URL. Dengan mengikuti panduan ini, Anda dapat dengan mudah memeriksa URL dan melindungi diri Anda dari potensi ancaman phishing.
     """)
 
-def extract_features(url):
-    obj = FeatureExtraction(url)
-    features = obj.getFeaturesList()
-    return features
-
 def detect_page():
-    initialize_session_state()
-
-    url = st.text_input("Masukkan link di bawah ini")
-    
+    st.title("Periksa URL")
+    url = st.text_input("Masukkan URL yang ingin diperiksa:")
     if st.button("Periksa"):
         if url:
-            features = extract_features(url)
-            x = np.array(features).reshape(1, -1) 
-            y_pred = gbc.predict(x)[0]
-            
-            result = "aman" if y_pred == 1 else "berbahaya"
+            feature = FeatureExtraction(url)
+            features = feature.extract_features()
+            prediction = gbc.predict([features])[0]
+            result = 'aman' if prediction == 0 else 'phishing'
             save_url_history(url, result)
-            
-            if y_pred == 1:
-                st.success(f"Horaay link yang kamu masukkan aman untuk diakses.")
+
+            if result == 'aman':
+                st.success(f"URL '{url}' adalah aman!")
                 st.image("assets/s.gif")
-                st.warning("""Mengapa demikian? karena URL tersebut sudah menggunakan protokol "https" yang menunjukkan bahwa URL tersebut memiliki sertifikat keamanan dan mengenkripsi data untuk melindungi informasi pribadi kamu.""")
+                st.write("""
+                    URL yang Anda masukkan tampaknya aman untuk dikunjungi. Namun, selalu berhati-hati dan pastikan untuk memeriksa keaslian situs web sebelum memasukkan informasi sensitif.
+                """)
             else:
                 st.error(f"Waspadaa!!! link yang kamu berikan kemungkinan berbahaya.")
                 st.image("assets/e.gif")
