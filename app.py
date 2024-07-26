@@ -18,9 +18,10 @@ DATABASE = 'url_history.db'
 
 DEFAULT_URLS = [
     ("https://www.google.com", "aman"),
-    ("https://www.facebook.com", "aman"),
+    ("http://yutup.hub", "phishing"),
+    ("http://micros0ft.com", "phishing"),
     ("https://www.amazon.com", "aman"),
-    ("https://www.microsoft.com", "aman"),
+    ("https://deanshing.streamlit.app/", "aman"),
     ("https://www.linkedin.com", "aman"),
     ("https://www.apple.com", "aman"),
     ("https://www.twitter.com", "aman"),
@@ -30,7 +31,6 @@ DEFAULT_URLS = [
     ("http://y0utub3.com", "phishing"),
     ("http://faceb00k.com", "phishing"),
     ("http://amaz0n.com", "phishing"),
-    ("http://micros0ft.com", "phishing"),
     ("http://linkdin.com", "phishing"),
     ("http://appl3.com", "phishing"),
     ("http://tw1tter.com", "phishing"),
