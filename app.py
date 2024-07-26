@@ -14,6 +14,7 @@ warnings.filterwarnings('ignore')
 
 gbc = joblib.load("rf_url.joblib")
 
+# SQLite Database Configuration
 DATABASE = 'url_history.db'
 
 def create_table():
@@ -28,7 +29,7 @@ def create_table():
 def save_url_history(url, result):
     with sqlite3.connect(DATABASE) as conn:
         conn.execute('INSERT INTO url_history (url, result) VALUES (?, ?)', (url, result))
-        conn.commit()  
+        conn.commit()  # Commit the transaction to ensure changes are saved
 
 def load_url_history():
     with sqlite3.connect(DATABASE) as conn:
@@ -176,25 +177,14 @@ def url_list_page():
     st.markdown("### Daftar URL yang telah diperiksa:")
 
     df = st.session_state['url_history']
-    
-    if df.empty:
-        df = pd.DataFrame(columns=['URL', 'Status'])
-    
-    st.write(df)
-    
-    st.subheader("Tambahkan URL Baru")
-    new_url = st.text_input("Masukkan URL:")
-    new_status = st.selectbox("Status:", ["Aman", "Phishing"])
-    
-    if st.button("Tambah URL"):
-        if new_url:
-            result = "aman" if new_status == "Aman" else "berbahaya"
-            save_url_history(new_url, result)
-            st.session_state['url_history'] = load_url_history()  # Update session state
-            st.success("URL berhasil ditambahkan!")
-        else:
-            st.warning("URL tidak boleh kosong.")
+    if not df.empty:
+        df.columns = ['URL', 'Status']
+        df['Status'] = df['Status'].apply(lambda x: 'Aman' if x == 'aman' else 'Phishing')
+        st.write(df)
+    else:
+        st.warning("Belum ada URL yang diperiksa.")
 
+    # Add option to download as CSV
     st.download_button(
         label="Download CSV",
         data=df.to_csv(index=False).encode('utf-8'),
