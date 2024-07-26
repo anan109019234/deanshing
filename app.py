@@ -14,8 +14,30 @@ warnings.filterwarnings('ignore')
 
 gbc = joblib.load("rf_url.joblib")
 
-# SQLite Database Configuration
 DATABASE = 'url_history.db'
+
+DEFAULT_URLS = [
+    ("https://www.google.com", "aman"),
+    ("https://www.facebook.com", "aman"),
+    ("https://www.amazon.com", "aman"),
+    ("https://www.microsoft.com", "aman"),
+    ("https://www.linkedin.com", "aman"),
+    ("https://www.apple.com", "aman"),
+    ("https://www.twitter.com", "aman"),
+    ("https://www.netflix.com", "aman"),
+    ("https://www.github.com", "aman"),
+    ("https://www.stackoverflow.com", "aman"),
+    ("http://y0utub3.com", "phishing"),
+    ("http://faceb00k.com", "phishing"),
+    ("http://amaz0n.com", "phishing"),
+    ("http://micros0ft.com", "phishing"),
+    ("http://linkdin.com", "phishing"),
+    ("http://appl3.com", "phishing"),
+    ("http://tw1tter.com", "phishing"),
+    ("http://netf1ix.com", "phishing"),
+    ("http://g1thub.com", "phishing"),
+    ("http://stackoverf1ow.com", "phishing"),
+]
 
 def create_table():
     with sqlite3.connect(DATABASE) as conn:
@@ -25,11 +47,14 @@ def create_table():
                 result TEXT NOT NULL
             )
         ''')
-        
+        if conn.execute('SELECT COUNT(*) FROM url_history').fetchone()[0] == 0:
+            conn.executemany('INSERT INTO url_history (url, result) VALUES (?, ?)', DEFAULT_URLS)
+            conn.commit()
+
 def save_url_history(url, result):
     with sqlite3.connect(DATABASE) as conn:
         conn.execute('INSERT INTO url_history (url, result) VALUES (?, ?)', (url, result))
-        conn.commit()  # Commit the transaction to ensure changes are saved
+        conn.commit()
 
 def load_url_history():
     with sqlite3.connect(DATABASE) as conn:
@@ -136,7 +161,6 @@ def detect_page():
             result = "aman" if y_pred == 1 else "berbahaya"
             save_url_history(url, result)
             
-            # Update session state
             st.session_state['url_history'] = load_url_history()
             
             if y_pred == 1:
@@ -184,7 +208,6 @@ def url_list_page():
     else:
         st.warning("Belum ada URL yang diperiksa.")
 
-    # Add option to download as CSV
     st.download_button(
         label="Download CSV",
         data=df.to_csv(index=False).encode('utf-8'),
