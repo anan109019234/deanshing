@@ -24,11 +24,12 @@ def create_table():
                 result TEXT NOT NULL
             )
         ''')
-
+        
 def save_url_history(url, result):
     with sqlite3.connect(DATABASE) as conn:
         conn.execute('INSERT INTO url_history (url, result) VALUES (?, ?)', (url, result))
         conn.commit()
+    st.session_state['url_history'] = load_url_history()
 
 def load_url_history():
     with sqlite3.connect(DATABASE) as conn:
@@ -40,34 +41,6 @@ def initialize_session_state():
         st.session_state['url_history'] = load_url_history()
     else:
         st.session_state['url_history'] = load_url_history()
-
-def populate_initial_data():
-    urls = [
-        ("https://www.google.com", "aman"),
-        ("https://www.facebook.com", "aman"),
-        ("https://www.linkedin.com", "aman"),
-        ("https://www.github.com", "aman"),
-        ("https://www.twitter.com", "aman"),
-        ("https://www.reddit.com", "aman"),
-        ("https://www.stackoverflow.com", "aman"),
-        ("https://www.amazon.com", "aman"),
-        ("https://www.microsoft.com", "aman"),
-        ("https://www.netflix.com", "aman"),
-        ("https://www.wikipedia.org", "aman"),
-        ("https://www.yahoo.com", "aman"),
-        ("http://youtub3.com", "berbahaya"),
-        ("http://go0gle.com", "berbahaya"),
-        ("http://facebo0k.com", "berbahaya"),
-        ("http://g00gle.com", "berbahaya"),
-        ("http://amzn.com", "berbahaya"),
-        ("http://linxedin.com", "berbahaya"),
-        ("http://f4cebook.com", "berbahaya"),
-        ("http://microsofts.com", "berbahaya")
-    ]
-    
-    with sqlite3.connect(DATABASE) as conn:
-        conn.executemany('INSERT INTO url_history (url, result) VALUES (?, ?)', urls)
-        conn.commit()
 
 def welcome_page():
     st.title("Selamat Datang di Aplikasi Deteksi Phishing")
@@ -177,26 +150,6 @@ def detect_page():
             st.warning("Uhm.. sepertinya kamu belum memasukkan URLnya kawan :)")
             st.image("assets/w.gif")
 
-def about_page():
-    st.image("assets/profil.jpg", use_column_width=True)
-
-    st.markdown("""
-        <div style="display: flex; flex-direction: row; justify-content: center;">
-            <div style="text-align: center; margin-right: 80px;">
-                <a href="https://github.com/anan109019234/deanshing.git">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/200px-Octicons-mark-github.svg.png" alt="GitHub" style="width:30px;height:30px;">
-                </a>
-                <p style="margin-top: 5px;">Direktori</p>
-            </div>
-            <div style="text-align: center; margin-left: 80px;">
-                <a href="https://www.kaggle.com/eswarchandt/phishing-website-detector">
-                    <img src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/189_Kaggle_logo_logos-512.png" alt="Kaggle" style="width:30px;height:30px;">
-                </a>
-                <p style="margin-top: 5px;">Dataset</p>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
-
 def url_list_page():
     initialize_session_state()
 
@@ -206,7 +159,12 @@ def url_list_page():
     if not df.empty:
         df.columns = ['URL', 'Status']
         df['Status'] = df['Status'].apply(lambda x: 'Aman' if x == 'aman' else 'Phishing')
-        st.write(df)
+
+        df_aman = df[df['Status'] == 'Aman'].tail(12)
+        df_phishing = df[df['Status'] == 'Phishing'].tail(8)
+        combined_df = pd.concat([df_aman, df_phishing])
+
+        st.write(combined_df)
     else:
         st.warning("Belum ada URL yang diperiksa.")
 
@@ -219,28 +177,19 @@ def url_list_page():
 
 def main():
     create_table()
-    initialize_session_state()
-    populate_initial_data()
+    with st.sidebar:
+        selected = option_menu("Menu", ["Beranda", "Periksa Disini", "Daftar URL", "Panduan"], 
+            icons=["house", "search", "list", "info"], 
+            menu_icon="cast", default_index=0)
     
-    selected = option_menu(
-        menu_title=None,
-        options=["Selamat Datang", "Panduan Aplikasi", "Periksa Disini", "Daftar URL", "Tentang Saya"],
-        icons=["house", "book", "search", "list", "envelope"],
-        menu_icon="cast",
-        default_index=0,
-        orientation="horizontal",
-    )
-
-    if selected == "Selamat Datang":
+    if selected == "Beranda":
         welcome_page()
-    elif selected == "Panduan Aplikasi":
-        panduan_aplikasi_page()
     elif selected == "Periksa Disini":
         detect_page()
     elif selected == "Daftar URL":
         url_list_page()
-    elif selected == "Tentang Saya":
-        about_page()
+    elif selected == "Panduan":
+        panduan_aplikasi_page()
 
 if __name__ == "__main__":
     main()
