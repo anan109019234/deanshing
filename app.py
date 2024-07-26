@@ -90,7 +90,16 @@ def welcome_page():
         Tujuan pembuatan aplikasi ini adalah untuk memberikan alat yang efisien dalam mendeteksi dan memitigasi risiko phishing, serta memberikan edukasi kepada pengguna tentang tanda-tanda phishing dan praktik terbaik untuk menjaga keamanan informasi pribadi mereka.
     """)
     st.title("Apa Itu Phishing?")
-    st.image("assets/heker.gif", width=500)
+    col1, col2, col3 = st.columns([1, 3, 1])
+
+    with col1:
+        st.write("")
+
+    with col2:
+        st.image("assets/heker.gif", width=500)
+
+    with col3:
+        st.write("")
 
     st.markdown("""
         Teman-teman tau ga, phishing itu serangan cyber yang bahaya banget lohh, karena kalau kamu sampai terkena serangan ini, informasi-informasi sensitif seperti kata sandi kamu, informasi keuangan kamu, dan bahkan identitas kamu bisa digunakan oleh pihak yang tidak bertanggung jawab untuk melakukan sesuatu yang ilegal atas nama kamu, ya! sekali lagi ku katakan ATAS NAMA KAMU!!!. Jadi jangan dianggap sepele ya teman-teman.
