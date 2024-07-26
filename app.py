@@ -96,7 +96,7 @@ def welcome_page():
         st.write("")
 
     with col2:
-        st.image("assets/heker.gif", width=1000)
+        st.image("assets/heker.gif", width=600)
 
     with col3:
         st.write("")
