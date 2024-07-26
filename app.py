@@ -43,6 +43,9 @@ DEFAULT_URLS = [
     ("http://pafikotamataram.org/", "phishing"),
     ("http://kerjasamagtk.id/app/img/sgacor/","phishing"),
     ("http://pmb.iaysningo.ac.id/gacor/","phishing"),
+    ("http://pengaduan.poltekim.php/ver/slot777/","phishing"),
+    ("https://machine-learning-for-fake-news-csjzpm4wwy5jqkjpvurpz2.streamlit.app/","aman"),
+    ("https://www.tiktok.com/@darksistemwoii/video/7393238500994190598?_r=1&u_code=dbj0f55jdaic72&region=ID&mid=7393238507596352261&preview_pb=0&sharer_language=id","aman"),
 ]
 
 def create_table():
