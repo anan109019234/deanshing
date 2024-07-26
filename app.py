@@ -105,7 +105,17 @@ def welcome_page():
         Teman-teman tau ga, phishing itu serangan cyber yang bahaya banget lohh, karena kalau kamu sampai terkena serangan ini, informasi-informasi sensitif seperti kata sandi kamu, informasi keuangan kamu, dan bahkan identitas kamu bisa digunakan oleh pihak yang tidak bertanggung jawab untuk melakukan sesuatu yang ilegal atas nama kamu, ya! sekali lagi ku katakan ATAS NAMA KAMU!!!. Jadi jangan dianggap sepele ya teman-teman.
     """)
     st.title("Awas hindari kaktus!!!")
-    st.image("assets/dino.gif", use_column_width=True)
+    col1, col2, col3 = st.columns([1, 3, 1])
+
+    with col1:
+        st.write("")
+
+    with col2:
+        st.image("assets/dino.gif", width=600)
+
+    with col3:
+        st.write("")
+
     st.markdown("""
         Untuk menghindari URL phishing, ada beberapa langkah yang bisa teman-teman lakukan, yaitu:
         - Periksa URL dengan cermat sebelum mengklik atau memasukkan informasi sensitif.
