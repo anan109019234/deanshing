@@ -29,6 +29,7 @@ def create_table():
 def save_url_history(url, result):
     with sqlite3.connect(DATABASE) as conn:
         conn.execute('INSERT INTO url_history (url, result) VALUES (?, ?)', (url, result))
+        conn.commit()  # Commit the transaction to ensure changes are saved
 
 def load_url_history():
     with sqlite3.connect(DATABASE) as conn:
@@ -37,6 +38,8 @@ def load_url_history():
 
 def initialize_session_state():
     if 'url_history' not in st.session_state:
+        st.session_state['url_history'] = load_url_history()
+    else:
         st.session_state['url_history'] = load_url_history()
 
 def welcome_page():
@@ -120,7 +123,6 @@ def extract_features(url):
     return features
 
 def detect_page():
-
     initialize_session_state()
 
     url = st.text_input("Masukkan link di bawah ini")
@@ -133,6 +135,9 @@ def detect_page():
             
             result = "aman" if y_pred == 1 else "berbahaya"
             save_url_history(url, result)
+            
+            # Update session state
+            st.session_state['url_history'] = load_url_history()
             
             if y_pred == 1:
                 st.success(f"Horaay link yang kamu masukkan aman untuk diakses.")
@@ -171,7 +176,7 @@ def url_list_page():
 
     st.markdown("### Daftar URL yang telah diperiksa:")
 
-    df = load_url_history()
+    df = st.session_state['url_history']
     if not df.empty:
         df.columns = ['URL', 'Status']
         df['Status'] = df['Status'].apply(lambda x: 'Aman' if x == 'aman' else 'Phishing')
