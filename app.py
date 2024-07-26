@@ -104,7 +104,7 @@ def welcome_page():
     st.markdown("""
         Teman-teman tau ga, phishing itu serangan cyber yang bahaya banget lohh, karena kalau kamu sampai terkena serangan ini, informasi-informasi sensitif seperti kata sandi kamu, informasi keuangan kamu, dan bahkan identitas kamu bisa digunakan oleh pihak yang tidak bertanggung jawab untuk melakukan sesuatu yang ilegal atas nama kamu, ya! sekali lagi ku katakan ATAS NAMA KAMU!!!. Jadi jangan dianggap sepele ya teman-teman.
     """)
-    st.title("Awas hindari kaktus!!!")
+    st.title("Awas Hindari Phishing!!!")
     col1, col2, col3 = st.columns([1, 3, 1])
 
     with col1:
@@ -123,7 +123,7 @@ def welcome_page():
         - Pastikan situs web menggunakan protokol HTTPS dan memiliki sertifikat keamanan yang valid.
         - Waspadai tanda-tanda umum phishing seperti tekanan waktu, ancaman, atau penawaran yang terlalu bagus untuk menjadi kenyataan.
     """)
-    st.title("Yuk kenalan sama Random Forest")
+    st.title("Yuk Kenalan Sama Random Forest")
     col1, col2, col3 = st.columns([1, 3, 1])
 
     with col1:
