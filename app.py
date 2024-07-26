@@ -215,7 +215,7 @@ def about_page():
     st.markdown("""
         <div style="display: flex; flex-direction: row; justify-content: center;">
             <div style="text-align: center; margin-right: 80px;">
-                <a href="https://github.com/anan109019234/deanshing.git">
+                <a href="https://github.com/anan109019234/deanshing-app/tree/main">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/200px-Octicons-mark-github.svg.png" alt="GitHub" style="width:30px;height:30px;">
                 </a>
                 <p style="margin-top: 5px;">Direktori</p>
