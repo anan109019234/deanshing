@@ -14,7 +14,6 @@ warnings.filterwarnings('ignore')
 
 gbc = joblib.load("rf_url.joblib")
 
-# SQLite Database Configuration
 DATABASE = 'url_history.db'
 
 def create_table():
@@ -25,11 +24,11 @@ def create_table():
                 result TEXT NOT NULL
             )
         ''')
-        
+
 def save_url_history(url, result):
     with sqlite3.connect(DATABASE) as conn:
         conn.execute('INSERT INTO url_history (url, result) VALUES (?, ?)', (url, result))
-        conn.commit()  # Commit the transaction to ensure changes are saved
+        conn.commit()
 
 def load_url_history():
     with sqlite3.connect(DATABASE) as conn:
@@ -41,6 +40,34 @@ def initialize_session_state():
         st.session_state['url_history'] = load_url_history()
     else:
         st.session_state['url_history'] = load_url_history()
+
+def populate_initial_data():
+    urls = [
+        ("https://www.google.com", "aman"),
+        ("https://www.facebook.com", "aman"),
+        ("https://www.linkedin.com", "aman"),
+        ("https://www.github.com", "aman"),
+        ("https://www.twitter.com", "aman"),
+        ("https://www.reddit.com", "aman"),
+        ("https://www.stackoverflow.com", "aman"),
+        ("https://www.amazon.com", "aman"),
+        ("https://www.microsoft.com", "aman"),
+        ("https://www.netflix.com", "aman"),
+        ("https://www.wikipedia.org", "aman"),
+        ("https://www.yahoo.com", "aman"),
+        ("http://youtub3.com", "berbahaya"),
+        ("http://go0gle.com", "berbahaya"),
+        ("http://facebo0k.com", "berbahaya"),
+        ("http://g00gle.com", "berbahaya"),
+        ("http://amzn.com", "berbahaya"),
+        ("http://linxedin.com", "berbahaya"),
+        ("http://f4cebook.com", "berbahaya"),
+        ("http://microsofts.com", "berbahaya")
+    ]
+    
+    with sqlite3.connect(DATABASE) as conn:
+        conn.executemany('INSERT INTO url_history (url, result) VALUES (?, ?)', urls)
+        conn.commit()
 
 def welcome_page():
     st.title("Selamat Datang di Aplikasi Deteksi Phishing")
@@ -136,7 +163,6 @@ def detect_page():
             result = "aman" if y_pred == 1 else "berbahaya"
             save_url_history(url, result)
             
-            # Update session state
             st.session_state['url_history'] = load_url_history()
             
             if y_pred == 1:
@@ -184,7 +210,6 @@ def url_list_page():
     else:
         st.warning("Belum ada URL yang diperiksa.")
 
-    # Add option to download as CSV
     st.download_button(
         label="Download CSV",
         data=df.to_csv(index=False).encode('utf-8'),
@@ -195,7 +220,8 @@ def url_list_page():
 def main():
     create_table()
     initialize_session_state()
-
+    populate_initial_data()
+    
     selected = option_menu(
         menu_title=None,
         options=["Selamat Datang", "Panduan Aplikasi", "Periksa Disini", "Daftar URL", "Tentang Saya"],
