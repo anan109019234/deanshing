@@ -92,6 +92,12 @@ def welcome_page():
     st.title("Apa Itu Phishing?")
     st.image("assets/heker.gif")
     st.markdown("""
+    <div style="display: flex; justify-content: center;">
+        <img src="assets/heker.gif" style="width: 50%; max-width: 500px;" />
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
         Teman-teman tau ga, phishing itu serangan cyber yang bahaya banget lohh, karena kalau kamu sampai terkena serangan ini, informasi-informasi sensitif seperti kata sandi kamu, informasi keuangan kamu, dan bahkan identitas kamu bisa digunakan oleh pihak yang tidak bertanggung jawab untuk melakukan sesuatu yang ilegal atas nama kamu, ya! sekali lagi ku katakan ATAS NAMA KAMU!!!. Jadi jangan dianggap sepele ya teman-teman.
     """)
     st.title("Awas hindari kaktus!!!")
