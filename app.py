@@ -120,8 +120,9 @@ def extract_features(url):
     return features
 
 def detect_page():
-    initialize_session_state()
 
+    initialize_session_state()
+    st.write("Current page:", st.session_state.get('current_page'))
     url = st.text_input("Masukkan link di bawah ini")
     
     if st.button("Periksa"):
