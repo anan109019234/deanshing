@@ -124,7 +124,17 @@ def welcome_page():
         - Waspadai tanda-tanda umum phishing seperti tekanan waktu, ancaman, atau penawaran yang terlalu bagus untuk menjadi kenyataan.
     """)
     st.title("Yuk kenalan sama Random Forest")
-    st.image("assets/security.gif", use_column_width=True)
+    col1, col2, col3 = st.columns([1, 3, 1])
+
+    with col1:
+        st.write("")
+
+    with col2:
+        st.image("assets/security.gif", width=600)
+
+    with col3:
+        st.write("")
+
     st.markdown("""
         [1] Pertama, coba bayangkan kamu memiliki sebuah alat untuk mengidentifikasi apakah sebuah URL aman atau berbahaya untuk dikunjungi. Nah, Random Forest adalah seperti tim ahli keamanan yang terdiri dari banyak orang dengan keahlian berbeda-beda dalam mengenali tanda-tanda URL phishing.
 
