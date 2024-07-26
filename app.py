@@ -80,6 +80,7 @@ def welcome_page():
     st.title("Selamat Datang di Aplikasi Deteksi Phishing")
     st.markdown("""
         **Tentang Aplikasi Ini:**
+        
         Aplikasi ini dirancang untuk membantu Anda mengidentifikasi apakah sebuah URL aman untuk dikunjungi atau berpotensi menjadi phishing. Phishing adalah teknik penipuan yang digunakan oleh pelaku kejahatan siber untuk mencuri informasi pribadi seperti kata sandi, informasi keuangan, dan data sensitif lainnya dengan menipu pengguna agar mengunjungi situs web palsu yang terlihat sah.
         Tujuan utama aplikasi ini adalah memberikan alat yang sederhana namun efektif untuk memeriksa keamanan URL secara real-time. Dengan menggunakan algoritma machine learning seperti Random Forest, aplikasi ini menganalisis berbagai fitur dari URL dan memberikan penilaian apakah URL tersebut berpotensi berbahaya atau tidak.
         
